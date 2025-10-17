@@ -14,7 +14,7 @@
       "extensions": [
         "denoland.vscode-deno",
         "davidanson.vscode-markdownlint",
-        "ms-vsliveshare.vslives"
+        "ms-vsliveshare.vsliveshare"
       ]
     }
   }
