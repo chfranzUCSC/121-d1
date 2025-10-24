@@ -3,7 +3,7 @@ import "./style.css";
 let counterNumber: number = 0;
 
 const counterDiv = document.createElement("div") as HTMLDivElement;
-counterDiv.textContent = `${counterNumber} Lizards`;
+updateCounterDiv();
 document.body.append(counterDiv);
 
 const clickerButton = document.createElement("button") as HTMLButtonElement;
@@ -13,8 +13,21 @@ clickerButton.textContent = "🦎🦎🦎";
 document.body.appendChild(clickerButton);
 // append to document body to actually add the thing to the page object (document object model)
 
-
 clickerButton.addEventListener("click", () => {
-  counterNumber++;
-  counterDiv.textContent = `${counterNumber} Lizards`;
+  addOne();
 });
+
+function incrementCounter(numToAdd: number) {
+  counterNumber += numToAdd;
+}
+
+function updateCounterDiv() {
+  counterDiv.textContent = `${counterNumber} Lizards`;
+}
+
+function addOne() {
+  incrementCounter(1);
+  updateCounterDiv();
+}
+
+setInterval(addOne, 1000);
