@@ -1,6 +1,9 @@
 import "./style.css";
 
 let counterNumber: number = 0;
+let prevTime: number = performance.now();
+// deno-lint-ignore prefer-const
+let growthRate: number = 1;
 
 const counterDiv = document.createElement("div") as HTMLDivElement;
 updateCounterDiv();
@@ -22,7 +25,7 @@ function incrementCounter(numToAdd: number) {
 }
 
 function updateCounterDiv() {
-  counterDiv.textContent = `${counterNumber} Lizards`;
+  counterDiv.textContent = `${Math.floor(counterNumber)} Lizards`;
 }
 
 function addOne() {
@@ -30,4 +33,20 @@ function addOne() {
   updateCounterDiv();
 }
 
-setInterval(addOne, 1000);
+function update() {
+  // deno-lint-ignore prefer-const
+  let currTime: number = performance.now();
+
+  // time diff in full seconds, not ms
+  // deno-lint-ignore prefer-const
+  let elapsedTime: number = (currTime - prevTime) / 1000;
+
+  incrementCounter(growthRate * elapsedTime);
+  updateCounterDiv();
+
+  prevTime = currTime;
+
+  requestAnimationFrame(update);
+}
+
+requestAnimationFrame(update);
