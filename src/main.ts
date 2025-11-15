@@ -2,22 +2,29 @@ import "./style.css";
 
 let counterNumber: number = 0;
 let prevTime: number = performance.now();
-// deno-lint-ignore prefer-const
-let growthRate: number = 1;
+let growthRate: number = 0;
 
 const counterDiv = document.createElement("div") as HTMLDivElement;
 updateCounterDiv();
 document.body.append(counterDiv);
 
 const clickerButton = document.createElement("button") as HTMLButtonElement;
-// as- typescript thing. HTMLButtonElement to stop it from wriggling into a different shape?
 clickerButton.textContent = "🦎🦎🦎";
-// textContent adds plain text- innerHTML can have formatting i.e. <br>
 document.body.appendChild(clickerButton);
-// append to document body to actually add the thing to the page object (document object model)
 
 clickerButton.addEventListener("click", () => {
   addOne();
+});
+
+const upgradeButton = document.createElement("button") as HTMLButtonElement;
+upgradeButton.textContent = "Lizard emitting ancient artifact, cost: 10";
+document.body.appendChild(upgradeButton);
+
+upgradeButton.addEventListener("click", () => {
+  if (counterNumber >= 10) {
+    growthRate += 1;
+    incrementAndUpdate(-10);
+  }
 });
 
 function incrementCounter(numToAdd: number) {
@@ -28,9 +35,13 @@ function updateCounterDiv() {
   counterDiv.textContent = `${Math.floor(counterNumber)} Lizards`;
 }
 
-function addOne() {
-  incrementCounter(1);
+function incrementAndUpdate(add: number) {
+  incrementCounter(add);
   updateCounterDiv();
+}
+
+function addOne() {
+  incrementAndUpdate(1);
 }
 
 function update() {
@@ -41,8 +52,7 @@ function update() {
   // deno-lint-ignore prefer-const
   let elapsedTime: number = (currTime - prevTime) / 1000;
 
-  incrementCounter(growthRate * elapsedTime);
-  updateCounterDiv();
+  incrementAndUpdate(growthRate * elapsedTime);
 
   prevTime = currTime;
 
